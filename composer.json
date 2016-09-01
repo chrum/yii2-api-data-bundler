@@ -1,0 +1,8 @@
+{
+    "name": "chrum/yii2-api-data-bundler",
+    "description": "super simple data bundling and versionig module for yii2",
+    "license": "",
+    "autoload": {
+        "psr-4": { "chrum\\yii2\\ApiDataBundler\\": "" }
+    }
+}
