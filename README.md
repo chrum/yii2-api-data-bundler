@@ -32,6 +32,36 @@ some description, to be written...
 
 * Update the project by running 'composer update'
 
+
+* Add 'BundableTrait' to model which instances should be bundled and implement collectData($params = null) method
+* For example:
+~~~php
+
+return [
+    ......
+    namespace api\models;
+
+    use chrum\yii2\apiDataBundler\extensions\BundlableTrait;
+    use common\models\ExpenseType;
+
+    class ExpenseTypeApiModel extends ExpenseType
+    {
+        use BundlableTrait;
+
+        protected static function collectData($params = null)
+        {
+            return ExpenseType::find()
+                ->select(['id', 'title', 'parent'])
+                ->where(['user_id' => null])
+                ->asArray()->all();
+        }
+        ......
+    }
+    ......
+]
+
+~~~
+
 * Enable the module in the config/main.php file adjusting 'class' to your needs:
 
 ~~~php
@@ -39,14 +69,34 @@ some description, to be written...
 return [
     ......
         'modules' => [
-            'dataBundler' => [
-                'class' => 'common\modules\yii2-api-data-bundler\Module',
+        'apiDataBundler' => [
+            'class' => 'chrum\yii2\apiDataBundler\Module',
+            'bundles' => [
+                'bundle_name' => [
+                    'class' => 'bundle\model\class',
+                    'cache' => true
+                ],
+                'expense_types' => [
+                    'class' => 'api\models\ExpenseTypeApiModel',
+                    'cache' => true
+                ],
             ],
+
+            // OPTIONAL
+            'as behaviorName' => [
+                'class' => 'api\extensions\AuthFilter'
+            ],
+        ]
         ],
     ......
 ]
 
 ~~~
 
-    
-    
+* Bundled data is accessible with url:
+http://server.address/data-bundles?{bundle name}={bundle timestamp}
+Where GET params are:
+    {bundle name} = {bundle timestamp}
+For example:
+http://server.address/data-bundles?bundle_name=0&expense_types=0
+

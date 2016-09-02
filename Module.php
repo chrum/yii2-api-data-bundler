@@ -10,7 +10,10 @@ class Module extends \yii\base\Module
     /**
      * @inheritdoc
      */
-    public $controllerNamespace = 'common\modules\controllers';
+    public $controllerNamespace = 'chrum\yii2\apiDataBundler\controllers';
+    public $defaultRoute = 'default';
+
+    public $bundles = [];
 
     /**
      * @inheritdoc
