@@ -86,6 +86,17 @@ return [
 
 ~~~
 
+### Tweak your url manager config (to have slightly prettier access url)
+~~~php
+    ......
+    'urlManager' => [
+        ......
+        'rules' => [
+            'data-bundles' => 'apiDataBundler',
+            ......
+    ......
+~~~
+
 ### Bundled data is accessible with url:
 
 http://server.address/data-bundles?{bundleName}={bundleTimestamp}
