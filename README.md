@@ -8,7 +8,7 @@ some description, to be written...
 - yii2
 
 # Installation
-* Update composer.json
+### Update composer.json
 
 ~~~json
 
@@ -30,15 +30,13 @@ some description, to be written...
 
 ~~~
 
-* Update the project by running 'composer update'
+### Update the project by running 'composer update'
+### Create/Update bundlable models
+1. Add 'BundableTrait' to model which instances should be bundled
+2. Implement collectData($params = null) method
 
-
-* Add 'BundableTrait' to model which instances should be bundled and implement collectData($params = null) method
-* For example:
+For example:
 ~~~php
-
-return [
-    ......
     namespace api\models;
 
     use chrum\yii2\apiDataBundler\extensions\BundlableTrait;
@@ -57,15 +55,10 @@ return [
         }
         ......
     }
-    ......
-]
-
 ~~~
-
-* Enable the module in the config/main.php file adjusting 'class' to your needs:
+### Enable the module in the config/main.php:
 
 ~~~php
-
 return [
     ......
         'modules' => [
@@ -93,10 +86,15 @@ return [
 
 ~~~
 
-* Bundled data is accessible with url:
-http://server.address/data-bundles?{bundle name}={bundle timestamp}
+### Bundled data is accessible with url:
+
+http://server.address/data-bundles?{bundleName}={bundleTimestamp}
+
 Where GET params are:
-    {bundle name} = {bundle timestamp}
+*{bundleName} = {bundleTimestamp}
+
 For example:
+~~~
 http://server.address/data-bundles?bundle_name=0&expense_types=0
+~~~
 
