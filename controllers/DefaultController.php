@@ -2,6 +2,7 @@
 
 namespace chrum\yii2\apiDataBundler\controllers;
 
+use chrum\yii2\apiDataBundler\models\DataBundle;
 use yii\filters\ContentNegotiator;
 use yii\filters\Cors;
 use yii\filters\VerbFilter;
@@ -41,12 +42,9 @@ class DefaultController extends Controller
         $available = \Yii::$app->controller->module->bundles;
         $requested = \Yii::$app->request->getQueryParams();
         $result = [];
-        foreach ($available as $name => $values) {
+        foreach ($available as $name => $config) {
             if (isset($requested[$name])) {
-                /*@var $class BundlableTrait */
-                if (method_exists($values['class'], 'loadData')) {
-                    $result[$name] = $values['class']::loadData(isset($values['cache']) ? $values['cache'] : true);
-                }
+                $result[$name] = DataBundle::loadData($name, $config, $requested[$name]);
             }
         }
         return $result;

@@ -32,21 +32,18 @@ some description, to be written...
 
 ### Update the project by running 'composer update'
 ### Create/Update bundlable models
-1. Add 'BundableTrait' to model which instances should be bundled
-2. Implement collectData($params = null) method
+Models should implement 'Bundable' interface
 
 For example:
 ~~~php
     namespace api\models;
 
-    use chrum\yii2\apiDataBundler\extensions\BundlableTrait;
+    use chrum\yii2\apiDataBundler\extensions\Bundlable;
     use common\models\ExpenseType;
 
-    class ExpenseTypeApiModel extends ExpenseType
+    class ExpenseTypeApiModel extends ExpenseType implements Bundlable
     {
-        use BundlableTrait;
-
-        protected static function collectData($params = null)
+        public static function collectData($params = null)
         {
             return ExpenseType::find()
                 ->select(['id', 'title', 'parent'])
@@ -85,6 +82,10 @@ return [
 ]
 
 ~~~
+
+### Apply migrations
+
+    './yii migrate --migrationPath=@vendor/chrum/yii2-api-data-bundler/migrations'
 
 ### Tweak your url manager config (to have slightly prettier access url)
 ~~~php
