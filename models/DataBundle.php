@@ -97,7 +97,7 @@ class DataBundle extends \yii\db\ActiveRecord
         } else {
             if (method_exists($config['class'], 'collectData')) {
                 return [
-                    'data' => $config['class']::collectData(),
+                    'data' => Json::encode($config['class']::collectData()),
                     'timestamp' => 0
                 ];
             }
