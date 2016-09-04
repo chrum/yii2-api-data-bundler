@@ -72,9 +72,21 @@ return [
                 ],
             ],
 
-            // OPTIONAL
+            // OPTIONAL, to restrict api access (token auth or something)
             'as behaviorName' => [
-                'class' => 'api\extensions\AuthFilter'
+                'class' => 'api\extensions\AuthFilter',
+                'only' => ['default/*']
+            ],
+            // OPTIONAL, to restrict admin/manage access
+            'as access' => [
+                'class' => 'yii\filters\AccessControl',
+                'except' => ['default/*'],
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['admin'],
+                    ]
+                ]
             ],
         ]
         ],

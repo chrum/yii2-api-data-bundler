@@ -61,6 +61,17 @@ class DataBundle extends \yii\db\ActiveRecord
         ];
     }
 
+    public function refresh()
+    {
+        $bundles = \Yii::$app->controller->module->bundles;
+        if (isset($bundles[$this->name])) {
+            $config = $bundles[$this->name];
+            $this->data = Json::encode($config['class']::collectData());
+            $this->created_at = time();
+            $this->save();
+        }
+    }
+
     public static function loadData(string $name, array $config, $timestamp = 0)
     {
         $result = null;
