@@ -52,9 +52,11 @@ class DefaultController extends Controller
             }
         }
         foreach($params as $name => $value) {
-            list($bundleName, $paramName) = explode('_', $name);
-            if (isset($bundles[$bundleName])) {
-                $bundles[$bundleName][$paramName] = $value;
+            if (strpos($name, '_')) {
+                list($bundleName, $paramName) = explode('_', $name);
+                if (isset($bundles[$bundleName])) {
+                    $bundles[$bundleName][$paramName] = $value;
+                }
             }
         }
 
