@@ -40,11 +40,30 @@ class DefaultController extends Controller
     public function actionIndex()
     {
         $available = \Yii::$app->controller->module->bundles;
-        $requested = \Yii::$app->request->getQueryParams();
+        $params = \Yii::$app->request->getQueryParams();
+
+        $bundles = [];
+        foreach($params as $name => $value) {
+            if (isset($available[$name])) {
+                $bundles[$name] = [
+                    'timestamp' => $value
+                ];
+                unset($params[$name]);
+            }
+        }
+        foreach($params as $name => $value) {
+            list($bundleName, $paramName) = explode('_', $name);
+            if (isset($bundles[$bundleName])) {
+                $bundles[$bundleName][$paramName] = $value;
+            }
+        }
+
         $result = [];
         foreach ($available as $name => $config) {
-            if (isset($requested[$name])) {
-                $result[$name] = DataBundle::loadData($name, $config, $requested[$name]);
+            if (isset($bundles[$name])) {
+                $timestamp = $bundles[$name]['timestamp'];
+                unset($bundles[$name]['timestamp']);
+                $result[$name] = DataBundle::loadData($name, $config, $timestamp, $bundles[$name]);
             }
         }
         return $result;

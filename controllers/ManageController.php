@@ -46,6 +46,7 @@ class ManageController extends Controller
 
     /**
      * Updates an existing DataBundle model.
+     * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
      */
@@ -58,5 +59,19 @@ class ManageController extends Controller
         }
 
         return $this->redirect(['index']);
+    }
+
+    public function actionDelete($id)
+    {
+        /* @var $model \yii\db\ActiveRecord */
+        $model = DataBundle::findOne($id);
+        if ($model != null) {
+            $model->delete();
+        }
+
+        // if AJAX request (triggered by deletion via admin grid view), we should not redirect the browser
+        if(!isset($_GET['ajax'])) {
+            $this->redirect(isset($_POST['returnUrl']) ? $_POST['returnUrl'] : array('index'));
+        }
     }
 }

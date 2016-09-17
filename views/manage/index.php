@@ -20,10 +20,26 @@ $this->params['breadcrumbs'][] = $this->title;
 
             'name',
             'created_at:datetime',
+            'params' => [
+                'label' => 'Parameters',
+                'format' => 'html',
+                'value' => function ($model, $key, $index, $column) {
+                    $html = '<ul>';
+                    if ($model->params) {
+                        $params = \yii\helpers\Json::decode($model->params);
+                        foreach ($params as $param => $value) {
+                            $html .= "<li>$param: $value</li>";
+                        }
+                    }
+                    $html .= '<ul>';
+
+                    return $html;
+                }
+            ],
 
             [
                 'class' => 'yii\grid\ActionColumn',
-                'template' => '{refresh}',
+                'template' => '{refresh} | {delete}',
                 'buttons' => [
                     'refresh' => function ($url, $model, $key) {
                         return Html::a('Refresh', ['refresh', 'id' => $model->id]);
