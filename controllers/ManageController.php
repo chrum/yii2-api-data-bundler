@@ -61,6 +61,16 @@ class ManageController extends Controller
         return $this->redirect(['index']);
     }
 
+    public function actionRefreshAll()
+    {
+        $models = DataBundle::find()->all();
+        foreach($models as $model) {
+            $model->refresh();
+        }
+
+        return $this->redirect(['index']);
+    }
+
     public function actionDelete($id)
     {
         /* @var $model \yii\db\ActiveRecord */

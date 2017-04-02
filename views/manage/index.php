@@ -8,10 +8,20 @@ use yii\grid\GridView;
 
 $this->title = 'Cached data bundles';
 $this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="data-bundle-index">
 
-    <h1><?= Html::encode($this->title) ?></h1>
+    <h1>
+        <?= Html::encode($this->title) ?>
+        <?= Html::a('Refresh all', ['refresh-all'], [
+            'class' => 'btn btn-primary',
+            'data' => [
+                'confirm' => 'Are you sure you want to refresh (delete and regenerate) all bundles?'
+            ],
+        ])
+        ?>
+    </h1>
 
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
