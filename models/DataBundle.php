@@ -75,7 +75,7 @@ class DataBundle extends \yii\db\ActiveRecord
         }
     }
 
-    public static function loadData(string $name, array $config, $timestamp = 0, $params = [])
+    public static function loadData($name, array $config, $timestamp = 0, $params = [])
     {
         $result = null;
         if (isset($config['cache']) && $config['cache'] === true) {
